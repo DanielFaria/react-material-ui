@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
-import Container from './Container';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 
-const theme = createMuiTheme();
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+
+
+
+import './App.css';
 
 class App extends Component {
   render() {
     return (
-       <MuiThemeProvider theme={theme}>
-           <Container/>
-        </MuiThemeProvider>
-      /*
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -21,8 +20,14 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+       <MuiThemeProvider> 
+         <TextField
+                ref='cool_text'
+                floatingLabelText='Say something cool!'
+                defaultValue={this.state} />
+       </MuiThemeProvider>
+          
       </div>
-      */
     );
   }
 }
