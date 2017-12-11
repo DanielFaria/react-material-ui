@@ -1,48 +1,71 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-//import MenuIcon from 'material-ui-icons/Menu';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
-const styles = {
-  root: {
-    width: '100%',
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+class Login extends Component {
+  static muiName = 'FlatButton';
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
-
-          </IconButton>
-          <Typography type="title" color="inherit" className={classes.flex}>
-            Busca de Moedas
-          </Typography>
-          <Button color="contrast">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+  render() {
+    return (
+      <FlatButton {...this.props} label="Login" />
+    );
+  }
 }
 
-ButtonAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+const Logged = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Refresh" />
+    <MenuItem primaryText="Help" />
+    <MenuItem primaryText="Sign out" />
+  </IconMenu>
+);
 
-export default withStyles(styles)(ButtonAppBar);
+Logged.muiName = 'IconMenu';
 
+/**
+ * This example is taking advantage of the composability of the `AppBar`
+ * to render different components depending on the application state.
+ */
+class AppBarExampleComposition extends Component {
+  state = {
+    logged: true,
+  };
+
+  handleChange = (event, logged) => {
+    this.setState({logged: logged});
+  };
+
+  render() {
+    return (
+      <div>
+        <Toggle
+          label="Logged"
+          defaultToggled={true}
+          onToggle={this.handleChange}
+          labelPosition="right"
+          style={{margin: 20}}
+        />
+        <AppBar
+          title="Title"
+          iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+          iconElementRight={this.state.logged ? <Logged /> : <Login />}
+        />
+      </div>
+    );
+  }
+}
+
+export default AppBarExampleComposition;

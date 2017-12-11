@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/react-material-ui
+    docker:
+      - image: circleci/node:6.11.4
+    
+    steps:
+      - checkout
+      - run:
+          name: node-version
+          command: node -v
+      - run:
+          name: npm-version
+          command: npm -v
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm-react
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: test
+          command: npm test
